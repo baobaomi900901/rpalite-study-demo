@@ -30,14 +30,18 @@
     </div>
     <div class="flex items-center gap-4 text-base">
       <label title="下拉框" class="w-24">下拉框:</label>
-      <k-select v-model="selectValue" class="!w-64" :teleported="false">
-        <k-option
-          v-for="item in selectOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </k-select>
+      <div class="select-box">
+        <select class="select-item" v-model="selectValue">
+          <option :value="0">请选择</option>
+          <option
+            v-for="item in selectOptions"
+            :key="item.value"
+            :value="item.value"
+          >
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="flex items-center gap-4 text-base">
       <span class="w-24">输入框:</span>
@@ -134,7 +138,7 @@ const radioOptions = [
   { label: '夜宵', value: 4 },
 ];
 
-const selectValue = ref();
+const selectValue = ref(0);
 const selectOptions = [
   { label: '选项1', value: 1 },
   { label: '选项2', value: 2 },
@@ -213,4 +217,25 @@ function submit() {
   KMessage.success('提交成功');
 }
 </script>
-<style scoped></style>
+<style scoped lang="less">
+.select-box {
+  width: 256px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px #e5e7eb solid;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  .select-item {
+    width: 100%;
+    &:focus-visible {
+      outline: 0;
+    }
+  }
+
+  &:hover {
+    border: 1px #60a5fa solid;
+  }
+}
+</style>
