@@ -112,7 +112,7 @@ import { KMessage } from '@ksware/ksw-ux';
 
 const res = ref(0);
 
-const checkboxValue = ref();
+const checkboxValue = ref([]);
 const checkboxOptions = [
   { label: '肠粉', value: 1 },
   { label: '包子', value: 2 },
@@ -120,7 +120,7 @@ const checkboxOptions = [
   { label: '热干面', value: 4 },
 ];
 
-const radioValue = ref();
+const radioValue = ref(0);
 const radioOptions = [
   { label: '豆浆', value: 1 },
   { label: '咖啡', value: 2 },
@@ -136,9 +136,9 @@ const selectOptions = [
   { label: '送到宿舍', value: 4 },
 ];
 
-const inputValue = ref();
-const inputValue2 = ref();
-const inputValue3 = ref();
+const inputValue = ref('');
+const inputValue2 = ref('');
+const inputValue3 = ref('');
 
 const fileList = ref<UploadUserFile[]>([]);
 
@@ -184,7 +184,7 @@ const httpRequest = (file: any) => {
 
 const dateValue = ref(new Date());
 const dateValue2 = ref([new Date(), new Date()]);
-const textareaValue = ref();
+const textareaValue = ref('');
 
 const handleCopy = (text: string) => {
   navigator.clipboard.writeText(text).then(
@@ -205,23 +205,31 @@ function submit() {
   //   return;
   // }
 
-  let message =
-    '提交成功' +
+  const checkboxLabel = checkboxValue.value.map((item) => {
+    return checkboxOptions.find((option) => option.value === item)?.label || '""';
+  });
+  const radioLabel = radioOptions.find((item) => item.value === radioValue.value)?.label || '""';
+  const selectLabel = selectOptions.find((item) => item.value === selectValue.value)?.label || '""';
+
+  const message =
+    '提交成功!' +
+    '__(' +
+    (inputValue3.value || '""') +
+    ',[' +
+    checkboxLabel +
+    '],' +
+    radioLabel +
     ',' +
-    inputValue3.value +
+    selectLabel +
     ',' +
-    checkboxValue.value +
-    ',' +
-    radioValue.value +
-    ',' +
-    selectValue.value +
-    ',' +
-    textareaValue.value;
+    (textareaValue.value || '""') +
+    ')';
 
   KMessage.success(message);
+
   inputValue3.value = '';
   checkboxValue.value = [];
-  radioValue.value = '';
+  radioValue.value = 0;
   selectValue.value = 0;
   textareaValue.value = '';
   res.value++;
