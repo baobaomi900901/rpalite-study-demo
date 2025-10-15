@@ -205,14 +205,26 @@ function submit() {
   //   return;
   // }
 
+  let message =
+    '提交成功' +
+    ',' +
+    inputValue3.value +
+    ',' +
+    checkboxValue.value +
+    ',' +
+    radioValue.value +
+    ',' +
+    selectValue.value +
+    ',' +
+    textareaValue.value;
+
+  KMessage.success(message);
   inputValue3.value = '';
   checkboxValue.value = [];
   radioValue.value = '';
   selectValue.value = 0;
   textareaValue.value = '';
   res.value++;
-
-  KMessage.success('提交成功');
 }
 </script>
 <style scoped lang="less">
