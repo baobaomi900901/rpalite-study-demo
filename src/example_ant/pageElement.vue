@@ -114,26 +114,26 @@ const res = ref(0);
 
 const checkboxValue = ref();
 const checkboxOptions = [
-  { label: '红色', value: 1 },
-  { label: '绿色', value: 2 },
-  { label: '蓝色', value: 3 },
-  { label: '黄色', value: 4 },
+  { label: '肠粉', value: 1 },
+  { label: '包子', value: 2 },
+  { label: '牛肉面', value: 3 },
+  { label: '热干面', value: 4 },
 ];
 
 const radioValue = ref();
 const radioOptions = [
-  { label: '早餐', value: 1 },
-  { label: '午餐', value: 2 },
-  { label: '晚餐', value: 3 },
-  { label: '夜宵', value: 4 },
+  { label: '豆浆', value: 1 },
+  { label: '咖啡', value: 2 },
+  { label: '牛奶', value: 3 },
+  { label: '豆奶', value: 4 },
 ];
 
 const selectValue = ref(0);
 const selectOptions = [
-  { label: '选项1', value: 1 },
-  { label: '选项2', value: 2 },
-  { label: '选项3', value: 3 },
-  { label: '选项4', value: 4 },
+  { label: '堂食', value: 1 },
+  { label: '打包自提', value: 2 },
+  { label: '送到工位', value: 3 },
+  { label: '送到宿舍', value: 4 },
 ];
 
 const inputValue = ref();
