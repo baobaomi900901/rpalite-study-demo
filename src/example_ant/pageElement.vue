@@ -7,8 +7,16 @@
 !-->
 <template>
   <div ref="pageForm" class="pageForm flex-1 px-20 py-10 text-base flex flex-col gap-8">
+    <div class="flex items-center gap-4 text-base">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+          <label title="责任人" class="w-32">姓名:</label>
+          <k-input v-model="inputValue3" placeholder="请输入" name="责任人" />
+        </div>
+      </div>
+    </div>
     <div class="flex items-center gap-4">
-      <label title="复选框" class="w-24">复选框:</label>
+      <label title="复选框" class="w-24">主食(复选框):</label>
       <k-checkbox-group v-model="checkboxValue">
         <k-checkbox
           v-for="item in checkboxOptions"
@@ -21,7 +29,7 @@
       </k-checkbox-group>
     </div>
     <div class="flex items-center gap-4 text-base">
-      <label title="单选框" class="w-24">单选框:</label>
+      <label title="单选框" class="w-24">饮品(单选框):</label>
       <k-radio-group v-model="radioValue">
         <k-radio v-for="item in radioOptions" :key="item" :label="item.value" :value="item.value">
           {{ item.label }}
@@ -29,35 +37,14 @@
       </k-radio-group>
     </div>
     <div class="flex items-center gap-4 text-base">
-      <label title="下拉框" class="w-24">下拉框:</label>
+      <label title="下拉框" class="w-24">用餐(下拉框):</label>
       <div class="select-box">
         <select class="select-item" v-model="selectValue">
           <option :value="0">请选择</option>
-          <option
-            v-for="item in selectOptions"
-            :key="item.value"
-            :value="item.value"
-          >
+          <option v-for="item in selectOptions" :key="item.value" :value="item.value">
             {{ item.label }}
           </option>
         </select>
-      </div>
-    </div>
-    <div class="flex items-center gap-4 text-base">
-      <span class="w-24">输入框:</span>
-      <div class="flex flex-col gap-4">
-        <div class="flex items-center gap-4">
-          <label title="项目名称" class="w-32">项目名称:</label>
-          <k-input v-model="inputValue" placeholder="请输入" name="项目名称" />
-        </div>
-        <div class="flex items-center gap-4">
-          <label title="归属部门" class="w-32">归属部门:</label>
-          <k-input v-model="inputValue2" placeholder="请输入" name="归属部门" />
-        </div>
-        <div class="flex items-center gap-4">
-          <label title="责任人" class="w-32">责任人:</label>
-          <k-input v-model="inputValue3" placeholder="请输入" name="责任人" />
-        </div>
       </div>
     </div>
     <!-- <div class="flex items-center gap-4 text-base">
@@ -94,7 +81,7 @@
       <k-date-picker v-model="dateValue2" type="daterange" />
     </div> -->
     <div class="flex items-center gap-4 text-base">
-      <span class="w-24">文本域:</span>
+      <span class="w-24">备注(文本域):</span>
       <!-- 点击复制下面的文字 -->
       <div class="flex flex-col gap-4">
         <div>
@@ -110,8 +97,9 @@
         </div> -->
       </div>
     </div>
-    <div class="btn-box flex justify-start items-start ml-28">
+    <div class="btn-box flex justify-start items-center gap-4 ml-28">
       <k-button type="primary" @click="submit">保存</k-button>
+      <span>提交记录: {{ res }}</span>
     </div>
   </div>
 </template>
@@ -121,6 +109,8 @@ import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { UploadProps, UploadUserFile } from 'element-plus';
 import { KMessage } from '@ksware/ksw-ux';
+
+const res = ref(0);
 
 const checkboxValue = ref();
 const checkboxOptions = [
@@ -208,12 +198,20 @@ const handleCopy = (text: string) => {
 };
 
 function submit() {
-  console.log('fileList.value--->', fileList.value);
-  if (fileList.value.length === 0) {
-    //
-    KMessage.warning('缺少图片');
-    return;
-  }
+  // console.log('fileList.value--->', fileList.value);
+  // if (fileList.value.length === 0) {
+  //   //
+  //   KMessage.warning('缺少图片');
+  //   return;
+  // }
+
+  inputValue3.value = '';
+  checkboxValue.value = [];
+  radioValue.value = '';
+  selectValue.value = 0;
+  textareaValue.value = '';
+  res.value++;
+
   KMessage.success('提交成功');
 }
 </script>
