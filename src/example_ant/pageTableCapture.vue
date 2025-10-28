@@ -1,5 +1,6 @@
 <template>
   <div class="flex-1 p-4 bg-gray-100 flex flex-col gap-4">
+    {{ message }}
     <div class="bg-white rounded-md shadow-md w-full p-4">
       <k-filter-form
         :items="items"
@@ -18,13 +19,44 @@
           layout: ' jumper, sizes, ->, prev, pager, next, total',
           pageSizes: [10, 20, 30, 40, 50],
         }"
-      ></k-tree-table>
+      >
+        <template #operation="{ row }">
+          <k-button
+            text
+            @click="
+              () => {
+                KMessage({
+                  type: 'success',
+                  message: `has been obtained: ${row.name}`,
+                });
+              }
+            "
+          >
+            Get
+          </k-button>
+          <!-- <k-button
+            text
+            @click="
+              () => {
+                KMessage({
+                  type: 'success',
+                  message: row.role,
+                });
+              }
+            "
+          >
+            role
+          </k-button>
+          <k-button text type="danger" @click="">delete</k-button> -->
+        </template>
+      </k-tree-table>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue';
+import { KMessage } from '@ksware/ksw-ux';
 
 const column1 = ref([
   {
@@ -53,6 +85,10 @@ const column1 = ref([
   {
     title: 'Address',
     field: 'address',
+  },
+  {
+    title: 'Operation',
+    field: 'operation',
   },
 ]);
 const tableData = reactive([
@@ -190,6 +226,8 @@ const items = ref([
     ],
   },
 ]);
+
+const message = ref('');
 
 const searchTable = (value: any) => {
   const searchKeys = Object.keys(value).filter((key) => {
