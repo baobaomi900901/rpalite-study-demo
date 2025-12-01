@@ -100,6 +100,11 @@ const data = [
     path: '/table-write',
     icon: 'IconViewToggleTable',
   },
+  {
+    name: '表单',
+    path: '/from-pass',
+    icon: 'IconFile',
+  }
 
   //   // detailsView
   //   {
