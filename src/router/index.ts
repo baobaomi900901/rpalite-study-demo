@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 // import { home, pageComponents, pageTemplate, pageIDE, pageExample } from '../pages';
 
 // 引入仿 ant pro 的页面
-import { pageElement, pageForm, pageTableCapture, pageTableWrite, pageFromPass } from '../example_ant/index';
+import { pageElement, pageForm, pageTableCapture, pageTableWrite, pageFormPass, pageIFrame } from '../example_ant/index';
 
 const routes = [
   // ant pro
@@ -30,9 +30,14 @@ const routes = [
   },
   {
     path: '/from-pass',
-    component: pageFromPass,
+    component: pageFormPass,
     name: 'fromPass',
   },
+  {
+    path: '/iframe',
+    component: pageIFrame,
+    name: 'iframe'
+  }
 ];
 
 // createWebHistory, 无哈希值 #

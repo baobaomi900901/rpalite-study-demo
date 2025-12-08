@@ -4,8 +4,12 @@ import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
 import { cascadeOptions, treeSelectData } from './const'
 
+const props = defineProps<{
+  showMain?: boolean
+}>()
+
 const pass = ref('')
-const showMain = ref(false)
+const showMain = ref(Boolean(props.showMain))
 function confirm() {
   if (pass.value === 'dfdd') {
     showMain.value = true
@@ -102,6 +106,7 @@ function resetForm() {
           v-model="formData.treeSelect"
           :data="treeSelectData"
           :render-after-expand="false"
+          :check-strictly="true"
           style="width: 200px"
           icon=""
           expand-icon=""

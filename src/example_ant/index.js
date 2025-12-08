@@ -6,7 +6,9 @@ import pageForm from './pageForm.vue';
 import pageTableCapture from './pageTableCapture.vue';
 // pageTableWrite
 import pageTableWrite from './pageTableWrite.vue';
-// pageFromPass
-import pageFromPass from './pageFromPass.vue';
+// pageFormPass
+import pageFormPass from './pageFormPass.vue';
+// pageIFrame
+import pageIFrame from './pageIFrame.vue';
 
-export { pageElement, pageForm, pageTableCapture, pageTableWrite, pageFromPass };
+export { pageElement, pageForm, pageTableCapture, pageTableWrite, pageFormPass, pageIFrame };

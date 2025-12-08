@@ -104,6 +104,11 @@ const data = [
     name: '表单',
     path: '/from-pass',
     icon: 'IconFile',
+  },
+  {
+    name: '内嵌框架',
+    path: '/iframe',
+    icon: 'IconViewToggleTable',
   }
 
   //   // detailsView
