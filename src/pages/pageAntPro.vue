@@ -101,7 +101,7 @@ const data = [
     icon: 'IconViewToggleTable',
   },
   {
-    name: '表单',
+    name: '表单2',
     path: '/from-pass',
     icon: 'IconFile',
   },
@@ -109,7 +109,7 @@ const data = [
     name: '内嵌框架',
     path: '/iframe',
     icon: 'IconViewToggleTable',
-  }
+  },
 
   //   // detailsView
   //   {
