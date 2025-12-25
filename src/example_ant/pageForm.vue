@@ -18,32 +18,27 @@
       label-width="auto"
       class="w-full"
       showColon
+      :key="key"
     >
-      <k-form-item ref="myNameItem" label="发票代码" prop="code">
-        <k-input v-model="formData.code"></k-input>
-      </k-form-item>
-      <k-form-item ref="myNameItem" label="发票号码" prop="number">
-        <k-input v-model="formData.number"></k-input>
-      </k-form-item>
-      <k-form-item ref="myNameItem" label="开票日期" prop="date">
-        <k-input v-model="formData.date"></k-input>
-      </k-form-item>
-      <div class="flex gap-4">
-        <k-form-item ref="myNameItem" label="校验码" prop="verification">
-          <k-input v-model="formData.verification"></k-input>
+      <template v-for="(item, index) in contentList" :key="index">
+        <k-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
+          <k-input v-model="formData[item.prop]"></k-input>
         </k-form-item>
-        <img src="../assets/verification.png" alt="code" class="h-8" />
+        <div class="flex gap-4">
+        <template v-if="item.type === 'input-img'">
+          <k-form-item :label="item.label" :prop="item.prop">
+            <k-input v-model="formData[item.prop]"></k-input>
+          </k-form-item>
+          <img src="../assets/verification.png" alt="code" class="h-8" />
+        </template>
       </div>
-      <k-form-item ref="myNameItem" label="合计金额" prop="total">
-        <k-input v-model="formData.total"></k-input>
-      </k-form-item>
-      <k-form-item ref="myNameItem" label="合计税额" prop="tax">
-        <k-input v-model="formData.tax"></k-input>
-      </k-form-item>
+      </template>
+
       <k-form-item>
         <div class="flex gap-4 w-full border-t pt-4 flex items-center">
           <k-button main @click="submit(myForm)">提交</k-button>
           <k-button secondary @click="resetForm(myForm)">重置</k-button>
+          <k-button class="!ml-auto" main @click="rearrangement">重排</k-button>
         </div>
       </k-form-item>
     </k-form>
@@ -53,6 +48,49 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import type { FormInstance } from 'element-plus';
+
+const key = ref(0)
+
+type FormKey = 'code' | 'number' | 'date' | 'verification' | 'total' | 'tax';
+
+interface ContentItem {
+  label: string;
+  prop: FormKey;
+  type: 'input' | 'input-img';
+}
+
+const contentList = ref<ContentItem[]>([
+  {
+    label: '发票代码',
+    prop: 'code',
+    type: 'input'
+  },
+  {
+    label: '发票号码',
+    prop: 'number',
+    type: 'input'
+  },
+  {
+    label: '开票日期',
+    prop: 'date',
+    type: 'input'
+  },
+  {
+    label: '校验码',
+    prop: 'verification',
+    type: 'input-img'
+  },
+  {
+    label: '合计金额',
+    prop: 'total',
+    type: 'input'
+  },
+  {
+    label: '合计税额',
+    prop: 'tax',
+    type: 'input'
+  },
+])
 
 const myForm = ref<FormInstance>();
 const formData = ref({
@@ -83,6 +121,11 @@ const submit = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+function rearrangement() {
+  contentList.value.sort(() => Math.random() - 0.5);
+  key.value++;
+}
 </script>
 <style lang="less" scoped>
 .el-button.k-button + .el-button.k-button {
