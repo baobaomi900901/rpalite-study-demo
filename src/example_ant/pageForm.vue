@@ -10,6 +10,24 @@
     <span>发票录入</span>
     <br />
     <br />
+    <!-- 干扰dom -->
+    <k-form
+      v-if="formData.enableInterference"
+      style="display: none;"
+      ref="myForm"
+      :model="formData"
+      :rules="rules"
+      label-position="left"
+      label-width="auto"
+      class="w-full"
+      showColon
+      :key="key"
+    >
+      <k-form-item label="发票代码">
+        <k-input></k-input>
+      </k-form-item>
+    </k-form>
+
     <k-form
       ref="myForm"
       :model="formData"
@@ -38,7 +56,8 @@
         <div class="flex gap-4 w-full border-t pt-4 flex items-center">
           <k-button main @click="submit(myForm)">提交</k-button>
           <k-button secondary @click="resetForm(myForm)">重置</k-button>
-          <k-button class="!ml-auto" main @click="rearrangement">重排</k-button>
+          <k-switch class="!ml-auto" v-model="formData.enableInterference" active-text="干扰项状态开关" />
+          <k-button main @click="rearrangement">重排</k-button>
         </div>
       </k-form-item>
     </k-form>
@@ -100,6 +119,7 @@ const formData = ref({
   verification: '',
   total: '',
   tax: '',
+  enableInterference: false
 });
 
 const rules = {
