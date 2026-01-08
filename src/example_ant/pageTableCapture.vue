@@ -193,11 +193,23 @@ const tableData = reactive([
   { id: 60, name: 'Test4', role: 'Designer', sex: 'Women', age: 18, address: 'Shanghai' },
   { id: 61, name: 'Test5', role: 'Develop', sex: 'Man', age: 39, address: 'test abc' },
 ]);
+
+const myData = reactive(
+  new Array(5000).fill(null).map((item, index) => {
+    return {
+      ...tableData[index % tableData.length],
+      id: index + 1,
+      name: `Test${index + 1}`,
+    };
+  }),
+);
+
+console.log(myData);
+
 const isSearch = ref(false);
 const tempList = ref<any[]>([]);
 const searchData = computed(() => {
-  // tableData
-  return isSearch.value ? tempList.value : tableData;
+  return isSearch.value ? tempList.value : myData;
 });
 const items = ref([
   {
@@ -239,7 +251,7 @@ const searchTable = (value: any) => {
   if (searchKeys.length === 0) {
     return;
   }
-  const list = tableData.filter((row: any) => {
+  const list = myData.filter((row: any) => {
     return searchKeys.every((key) => {
       const searchVal = String(value[key]).toLowerCase().trim();
       const cellVal = row[key];
