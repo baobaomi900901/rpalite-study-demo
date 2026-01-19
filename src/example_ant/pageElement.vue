@@ -98,14 +98,21 @@
       </div>
     </div>
     <div class="btn-box flex justify-start items-center gap-4 ml-28">
-      <k-button type="primary" @click="submit">保存</k-button>
+      <k-button
+        type="primary"
+        @click="submit"
+        @mouseenter="handleMouseover"
+        @mouseleave="handleMouseleave"
+      >
+        保存
+      </k-button>
       <span>提交记录: {{ res }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { UploadProps, UploadUserFile } from 'element-plus';
 import { KMessage } from '@ksware/ksw-ux';
@@ -196,6 +203,27 @@ const handleCopy = (text: string) => {
     },
   );
 };
+
+const isHover = ref(false);
+const handleMouseover = () => {
+  isHover.value = true;
+};
+const handleMouseleave = () => {
+  isHover.value = false;
+};
+
+const onKeypress = (event: KeyboardEvent) => {
+  if (event.key.toUpperCase() === 'E' && isHover.value) {
+    // 点击保存按钮
+    submit();
+  }
+};
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keypress', onKeypress);
+});
+
+window.addEventListener('keypress', onKeypress);
 
 function submit() {
   // console.log('fileList.value--->', fileList.value);
