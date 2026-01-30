@@ -101,7 +101,7 @@ const data = [
     icon: 'IconViewToggleTable',
   },
   {
-    name: '表单2',
+    name: '内部测试表单',
     path: '/from-pass',
     icon: 'IconFile',
   },
