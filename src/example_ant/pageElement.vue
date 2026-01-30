@@ -15,6 +15,14 @@
         </div>
       </div>
     </div>
+    <div class="flex items-center gap-4 text-base">
+      <label title="单选框" class="w-24">饮品(单选框):</label>
+      <k-radio-group v-model="radioValue">
+        <k-radio v-for="item in radioOptions" :key="item" :label="item.value" :value="item.value">
+          {{ item.label }}
+        </k-radio>
+      </k-radio-group>
+    </div>
     <div class="flex items-center gap-4">
       <label title="复选框" class="w-24">主食(复选框):</label>
       <k-checkbox-group v-model="checkboxValue">
@@ -27,14 +35,6 @@
           {{ item.label }}
         </k-checkbox>
       </k-checkbox-group>
-    </div>
-    <div class="flex items-center gap-4 text-base">
-      <label title="单选框" class="w-24">饮品(单选框):</label>
-      <k-radio-group v-model="radioValue">
-        <k-radio v-for="item in radioOptions" :key="item" :label="item.value" :value="item.value">
-          {{ item.label }}
-        </k-radio>
-      </k-radio-group>
     </div>
     <div class="flex items-center gap-4 text-base">
       <label title="下拉框" class="w-24">用餐(下拉框):</label>
