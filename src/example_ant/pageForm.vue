@@ -52,7 +52,7 @@
         </template>
         <template v-if="item.type === 'input-slide'">
           <k-form-item :label="item.label" :prop="item.prop">
-            <Slide />
+            <Slide :key="slideKey" />
           </k-form-item>
         </template>
       </div>
@@ -161,6 +161,7 @@ const formData = ref({
   total: '',
   tax: '',
   enableInterference: false,
+  slide: true
 });
 
 const rules = {
@@ -173,11 +174,23 @@ const rules = {
   slide: [{ required: true, message: '请输入滑动校验码', trigger: 'blur' }],
 };
 
+const slideKey = ref(0)
 const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!');
+      slideKey.value++
+      formData.value = {
+        code: '',
+        number: '',
+        date: '',
+        verification: '',
+        total: '',
+        tax: '',
+        enableInterference: false,
+        slide: true
+      }
     } else {
       console.log('error submit!', fields);
     }
