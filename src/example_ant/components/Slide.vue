@@ -28,7 +28,6 @@ onMounted(() => {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min)
     }
-
     // 设置校验块的位置
     const checkContent = document.querySelector('.check-content')
     const checkBlock = document.querySelector('.check-block')
@@ -118,7 +117,7 @@ onMounted(() => {
             background-image: inherit;
             background-repeat: inherit;
             /* 图片的大小*/
-            background-size: 400px 300px;
+            background-size: 375px 250px;
             /* 设置为校验区域的坐标位置 check-content的left和top */
             background-position: -280px -100px;
             position: absolute;
