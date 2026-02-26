@@ -29,29 +29,34 @@
         </k-form-item>
       </k-form>
 
-      <k-form
-        ref="myForm"
-        :model="formData"
-        :rules="rules"
-        label-position="left"
-        label-width="auto"
-        class="w-full"
-        showColon
-        :key="key"
-      >
-        <template v-for="(item, index) in contentList" :key="index">
-          <k-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
+    <k-form
+      ref="myForm"
+      :model="formData"
+      :rules="rules"
+      label-position="left"
+      label-width="auto"
+      class="w-full"
+      showColon
+      :key="key"
+    >
+      <template v-for="(item, index) in contentList" :key="index">
+        <k-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
+          <k-input v-model="formData[item.prop]"></k-input>
+        </k-form-item>
+        <div class="flex gap-4">
+        <template v-if="item.type === 'input-img'">
+          <k-form-item :label="item.label" :prop="item.prop">
             <k-input v-model="formData[item.prop]"></k-input>
           </k-form-item>
-          <div class="flex gap-4">
-            <template v-if="item.type === 'input-img'">
-              <k-form-item :label="item.label" :prop="item.prop">
-                <k-input v-model="formData[item.prop]"></k-input>
-              </k-form-item>
-              <img src="../assets/verification.png" alt="code" class="h-8" />
-            </template>
-          </div>
+          <img src="../assets/verification.png" alt="code" class="h-8" />
         </template>
+        <template v-if="item.type === 'input-slide'">
+          <k-form-item :label="item.label" :prop="item.prop">
+            <Slide />
+          </k-form-item>
+        </template>
+      </div>
+      </template>
 
         <k-form-item>
           <div
@@ -97,15 +102,16 @@ import type { FormInstance } from 'element-plus';
 import { KMessageBox } from '@ksware/ksw-ux';
 
 const key = ref(0);
+import Slide from './components/Slide.vue'
 
 const moveButton = ref(false);
 
-type FormKey = 'code' | 'number' | 'date' | 'verification' | 'total' | 'tax';
+type FormKey = 'code' | 'number' | 'date' | 'verification' | 'total' | 'tax' | 'slide';
 
 interface ContentItem {
   label: string;
   prop: FormKey;
-  type: 'input' | 'input-img';
+  type: 'input' | 'input-img' | 'input-slide';
 }
 
 const contentList = ref<ContentItem[]>([
@@ -125,7 +131,7 @@ const contentList = ref<ContentItem[]>([
     type: 'input',
   },
   {
-    label: '校验码',
+    label: '字母校验码',
     prop: 'verification',
     type: 'input-img',
   },
@@ -139,7 +145,12 @@ const contentList = ref<ContentItem[]>([
     prop: 'tax',
     type: 'input',
   },
-]);
+  {
+    label: '滑动校验码',
+    prop: 'slide',
+    type: 'input-slide'
+  }
+])
 
 const myForm = ref<FormInstance>();
 const formData = ref({
@@ -156,9 +167,10 @@ const rules = {
   code: [{ required: true, message: '请输入发票代码', trigger: 'blur' }],
   number: [{ required: true, message: '请输入发票号码', trigger: 'blur' }],
   date: [{ required: true, message: '请输入开票日期', trigger: 'blur' }],
-  verification: [{ required: true, message: '请输入校验码', trigger: 'blur' }],
+  verification: [{ required: true, message: '请输入字母校验码', trigger: 'blur' }],
   total: [{ required: true, message: '请输入合计金额', trigger: 'blur' }],
   tax: [{ required: true, message: '请输入合计税额', trigger: 'blur' }],
+  slide: [{ required: true, message: '请输入滑动校验码', trigger: 'blur' }],
 };
 
 const submit = async (formEl: FormInstance | undefined) => {

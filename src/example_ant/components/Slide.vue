@@ -1,0 +1,157 @@
+<template>
+  <div class="check">
+      <div class="check-content"></div>
+      <div class="check-block"></div>
+  </div>
+  <div class="drag">
+      <div class="drag-block">
+          
+      </div>
+      <div class="drag-tips">
+        按住左边按钮向右拖动完成上方图像验证
+      </div>
+  </div>
+</template>
+
+<script setup lang='js'>
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  //随机生成一个x , Y坐标 用于设置校验块的位置 因为滑块有50px的宽度 所以x的范围为0-325 y的范围为0-200
+    let x = random(0, 325)
+    let y = random(0, 200)
+    //随机函数
+    //@ param min 最小值
+    //@ param max 最大值
+    function random(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min)
+    }
+
+    // 设置校验块的位置
+    const checkContent = document.querySelector('.check-content')
+    const checkBlock = document.querySelector('.check-block')
+    checkContent.style.cssText = `left:${x}px;top:${y}px`
+    checkBlock.style.cssText = `background-position: -${x}px -${y}px;top: ${y}px`
+
+
+    // 定义个运动状态 如果为true代表鼠标已经按下
+    let animating = false
+    // 定义存储鼠标按下的x坐标
+    let startX = 0
+    // 获取拖拽的滑块
+    const dragBlock = document.querySelector('.drag-block')
+    // 添加鼠标按下事件
+    dragBlock.addEventListener('mousedown', (e) => {
+        animating = true
+        startX = e.pageX
+    })
+    // 添加鼠标弹起事件
+    document.addEventListener('mouseup', () => {
+        animating = false
+    })
+
+    // 存储移动的距离
+    let offsetX = 0
+    // 获取校验区域
+    const drag = document.querySelector('.drag')
+    // 添加鼠标移动事件
+    drag.addEventListener('mousemove', (event) => {
+        // 没有按下鼠标 不执行
+        if (!animating) return 
+        // 存储鼠标移动的距离
+        offsetX = event.pageX - startX
+        // 限制移动的范围 0-350
+        if (offsetX < 0 || offsetX > 350) { return }
+        // 修改可移动盒子的 x 轴坐标
+        dragBlock.style.transform = `translateX(${offsetX}px`
+        // 设置被验证滑块left值
+        checkBlock.style.left = `${offsetX}px`
+    })
+
+
+    drag.addEventListener('mouseup', () => {
+        animating = false
+        // 根据移动的位置判断是否成功
+        // 移动的距离和校验块的x坐标的差值小于2 代表成功
+        if (offsetX >= x-2 && offsetX <= x+2) {
+            alert('成功')
+        } else {
+            //  验证失败 滑块和被验证块恢复坐标
+            dragBlock.style.transform = `translateX(0px)`
+            checkBlock.style.left = `0px`
+        }
+    })
+})
+</script>
+
+<style lang="less" scoped>
+* {
+            margin: 0;
+            padding: 0;
+        }
+        .check {
+            width: 375px;
+            height: 250px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-image: url(../../../public/elephant.png);
+        }
+
+        .check-content {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #fff;
+            position: absolute;
+            top: 100px;
+            left: 280px;
+        }
+
+
+        .check-block {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #fff;
+            /* 直接继承父级 */
+            background-image: inherit;
+            background-repeat: inherit;
+            /* 图片的大小*/
+            background-size: 400px 300px;
+            /* 设置为校验区域的坐标位置 check-content的left和top */
+            background-position: -280px -100px;
+            position: absolute;
+            top: 100px;
+            left: 10px;
+        }
+
+        .drag {
+            width: 375px;
+            height: 50px;
+            background-color: #e3e3e3;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .drag-block {
+            width: 50px;
+            height: 50px;
+            background-color: yellowgreen;
+            z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .drag-tips {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            line-height: 50px;
+            font-size: 12px;
+            color: #8a8a8a;
+        }
+</style>
