@@ -64,6 +64,7 @@
             :style="{ paddingTop: moveButton ? '1000px' : undefined }"
           >
             <k-button main @click="submit(myForm)">提交</k-button>
+            <k-button main @click="test">点击调试</k-button>
             <k-button secondary @click="resetForm(myForm)">重置</k-button>
           </div>
         </k-form-item>
@@ -99,7 +100,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import type { FormInstance } from 'element-plus';
-import { KMessageBox } from '@ksware/ksw-ux';
+import { KMessageBox, KMessage } from '@ksware/ksw-ux';
 
 const key = ref(0);
 import Slide from './components/Slide.vue'
@@ -213,6 +214,12 @@ const handleClose = (done: () => void) => {
       // catch error
     });
 };
+
+function test(event: Event) {
+  if (event.isTrusted) {
+    KMessage.success('点击成功')
+  }
+}
 </script>
 <style lang="less" scoped>
 .el-button.k-button + .el-button.k-button {
