@@ -29,34 +29,29 @@
         </k-form-item>
       </k-form>
 
-    <k-form
-      ref="myForm"
-      :model="formData"
-      :rules="rules"
-      label-position="left"
-      label-width="auto"
-      class="w-full"
-      showColon
-      :key="key"
-    >
-      <template v-for="(item, index) in contentList" :key="index">
-        <k-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
-          <k-input v-model="formData[item.prop]"></k-input>
-        </k-form-item>
-        <div class="flex gap-4">
-        <template v-if="item.type === 'input-img'">
-          <k-form-item :label="item.label" :prop="item.prop">
+      <k-form
+        ref="myForm"
+        :model="formData"
+        :rules="rules"
+        label-position="left"
+        label-width="auto"
+        class="w-full"
+        showColon
+        :key="key"
+      >
+        <template v-for="(item, index) in contentList" :key="index">
+          <k-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
             <k-input v-model="formData[item.prop]"></k-input>
           </k-form-item>
-          <img src="../assets/verification.png" alt="code" class="h-8" />
+          <div class="flex gap-4">
+            <template v-if="item.type === 'input-img'">
+              <k-form-item :label="item.label" :prop="item.prop">
+                <k-input v-model="formData[item.prop]"></k-input>
+              </k-form-item>
+              <img src="../assets/verification.png" alt="code" class="h-8" />
+            </template>
+          </div>
         </template>
-        <template v-if="item.type === 'input-slide'">
-          <k-form-item :label="item.label" :prop="item.prop">
-            <Slide :key="slideKey" />
-          </k-form-item>
-        </template>
-      </div>
-      </template>
 
         <k-form-item>
           <div
@@ -103,16 +98,15 @@ import type { FormInstance } from 'element-plus';
 import { KMessageBox, KMessage } from '@ksware/ksw-ux';
 
 const key = ref(0);
-import Slide from './components/Slide.vue'
 
 const moveButton = ref(false);
 
-type FormKey = 'code' | 'number' | 'date' | 'verification' | 'total' | 'tax' | 'slide';
+type FormKey = 'code' | 'number' | 'date' | 'verification' | 'total' | 'tax';
 
 interface ContentItem {
   label: string;
   prop: FormKey;
-  type: 'input' | 'input-img' | 'input-slide';
+  type: 'input' | 'input-img';
 }
 
 const contentList = ref<ContentItem[]>([
@@ -132,7 +126,7 @@ const contentList = ref<ContentItem[]>([
     type: 'input',
   },
   {
-    label: '字母校验码',
+    label: '校验码',
     prop: 'verification',
     type: 'input-img',
   },
@@ -146,12 +140,7 @@ const contentList = ref<ContentItem[]>([
     prop: 'tax',
     type: 'input',
   },
-  {
-    label: '滑动校验码',
-    prop: 'slide',
-    type: 'input-slide'
-  }
-])
+]);
 
 const myForm = ref<FormInstance>();
 const formData = ref({
@@ -162,36 +151,22 @@ const formData = ref({
   total: '',
   tax: '',
   enableInterference: false,
-  slide: true
 });
 
 const rules = {
   code: [{ required: true, message: '请输入发票代码', trigger: 'blur' }],
   number: [{ required: true, message: '请输入发票号码', trigger: 'blur' }],
   date: [{ required: true, message: '请输入开票日期', trigger: 'blur' }],
-  verification: [{ required: true, message: '请输入字母校验码', trigger: 'blur' }],
+  verification: [{ required: true, message: '请输入校验码', trigger: 'blur' }],
   total: [{ required: true, message: '请输入合计金额', trigger: 'blur' }],
   tax: [{ required: true, message: '请输入合计税额', trigger: 'blur' }],
-  slide: [{ required: true, message: '请输入滑动校验码', trigger: 'blur' }],
 };
 
-const slideKey = ref(0)
 const submit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!');
-      slideKey.value++
-      formData.value = {
-        code: '',
-        number: '',
-        date: '',
-        verification: '',
-        total: '',
-        tax: '',
-        enableInterference: false,
-        slide: true
-      }
     } else {
       console.log('error submit!', fields);
     }
