@@ -195,6 +195,18 @@ function test(event: Event) {
     KMessage.success('点击成功')
   }
 }
+
+function resetForm() {
+  formData.value = {
+    code: '',
+    number: '',
+    date: '',
+    verification: '',
+    total: '',
+    tax: '',
+    enableInterference: false,
+  };
+}
 </script>
 <style lang="less" scoped>
 .el-button.k-button + .el-button.k-button {
